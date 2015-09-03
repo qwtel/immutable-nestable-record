@@ -1,5 +1,5 @@
 import expect from 'expect';
-import {NestableRecord} from '../src';
+import NestableRecord from '../src';
 
 // TODO: turn into tests
 /*
