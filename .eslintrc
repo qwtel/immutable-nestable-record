@@ -12,7 +12,8 @@
     "guard-for-in": 0,
     "no-loop-func": 0,
     "new-cap": 0,
-    "no-eq-null": 0
+    "no-eq-null": 0,
+    "comma-dangle": [2, "always-multiline"]
   },
   "plugins": [
     "react"

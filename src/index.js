@@ -11,21 +11,26 @@ function NestableRecord(defaultValues, types, name) {
   function NestableRecordType(values) {
     if (values instanceof _RecordType) return values;
 
-    const argumentValues = values || defaultValues;
-    const newValues = {...argumentValues};
+    const _values = values || defaultValues;
+    const newValues = {..._values};
 
     for (let key in types) {
-      const argumentValue = argumentValues[key];
-      if (argumentValue == null) continue;
+      const _value = _values[key];
+      if (_value == null) continue;
 
       const type = ensureArray(types[key]);
 
-      let value = new type[0](argumentValue);
-      for (let i = 1; i < type.length; i++) {
-        value = value.map(x => new type[i](x));
-      }
+      const f = (i, v) => {
+        const res = type[i](v);
 
-      newValues[key] = value;
+        if (type[i + 1]) {
+          return res.map(x => f(i + 1, x));
+        }
+
+        return res;
+      };
+
+      newValues[key] = f(0, _value);
     }
 
     return _RecordType(newValues);
