@@ -1,17 +1,28 @@
-library-boilerplate
+Immutable Nestable Record
 =========================
 
-An opinionated setup I plan to use for my libraries.
+Record factory that supports nesting of Immutable.js recods and collections.
 
-It has CommonJS and UMD builds via Babel and Webpack, ESLint, and Mocha.  
-It also has React-friendly examples folder with library code mapped to the sources.
+```js
+const Point = Immutable.Record({x: 0, y: 0}, 'Point');
 
-If you use this, make sure to grep for “library-boilerplate” and replace every occurrence.
-See `package.json` in the root and the example folder for the list of the available commands.
+const Rect = NestableRecord({
+  a: null,
+  b: null,
+}, {
+  a: Point,
+  b: Point,
+}, 'Rect');
 
-Note that this is an *opinionated* boilerplate. You might want to:
+Rect({a: {x: 1, y: 1}, b: {x: 2, y: 2}});
+// => Rect { "a": Point { "x": 1, "y": 1 }, "b": Point { "x": 2, "y": 2 } }
 
-* Set `stage` to `2` in `.babelrc` so you don’t depend on language features that might be gone tomorrow;
-* Remove `loose: ["all"]` from `.babelrc` so the behavior is spec-compliant.
+const PointCloud = NestableRecord({
+  points: null,
+}, {
+  points: [Immutable.Set, Point],
+}, 'PointCloud');
 
-You have been warned.
+PointCloud({points: [{x: 1, y: 1}, {x: 2, y: 2}]});
+// => PointCloud { "points": Set { Point { "x": 1, "y": 1 }, Point { "x": 2, "y": 2 } } }
+```
