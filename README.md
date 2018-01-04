@@ -1,6 +1,8 @@
 Immutable Nestable Record
 =========================
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/qwtel/immutable-nestable-record.svg)](https://greenkeeper.io/)
+
 Record factory that supports nesting of Immutable.js recods and collections.
 
 ```js
